@@ -32,7 +32,7 @@ for r in range(num_rows):
 def read_data() -> pd.DataFrame:
     # df1 = pd.read_csv("/Users/mukh/Desktop/ortho_streamlit/AUC_outputs.csv", index_col=0)
     # df2 = pd.read_csv("/Users/mukh/Desktop/ortho_streamlit/output_models2.csv", index_col=0)
-    df = pd.read_csv("/Users/mukh/Desktop/ortho_streamlit/layer-wise_data.csv", index_col=0)
+    df = pd.read_csv("./layer-wise_data.csv", index_col=0)
     return df
 
 used_columns = []
