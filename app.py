@@ -17,7 +17,7 @@ grid = st.columns([2,1,1,1])
 # Function to create a row of widgets (with row number input to assure unique keys)
 def add_row(row):
     with grid[0]:
-        st.selectbox("Inquiry", ["Empty", "Speaker Accuracy", "Phone Accuracy", "ABX Within original", "ABX Across original", "ABX Within Collapsed", "ABX Across Collapsed", "Orthogonality AUC"],key=f'inquiry{row}')
+        st.selectbox("Inquiry", ["Empty", "Speaker Accuracy", "Phone Accuracy", "ABX Within original", "ABX Across original", "ABX Within Collapsed", "ABX Across Collapsed", "Orthogonality AUC", "Similarity Average", "Similarity Max", "Similarity Variance"],key=f'inquiry{row}')
     with grid[1]:
         st.selectbox("Model", ["Hubert", "Wav2Vec2", "WavLM", "Data2Vec", "Wav2Vec2Rand"], key=f'model{row}')
     with grid[2]:
@@ -32,7 +32,7 @@ for r in range(num_rows):
 def read_data() -> pd.DataFrame:
     # df1 = pd.read_csv("/Users/mukh/Desktop/ortho_streamlit/AUC_outputs.csv", index_col=0)
     # df2 = pd.read_csv("/Users/mukh/Desktop/ortho_streamlit/output_models2.csv", index_col=0)
-    df = pd.read_csv("./layer-wise_data.csv", index_col=0)
+    df = pd.read_csv("./layer-wise_data_new.csv", index_col=0)
     return df
 
 used_columns = []
@@ -55,8 +55,14 @@ for r in range(num_rows):
     elif getattr(st.session_state, "inquiry" + str(r)) == "ABX Within Collapsed":
         used_columns.append(getattr(st.session_state, "model" + str(r)) + "_" + "ABXWithin_coll")
     
-    elif getattr(st.session_state, "inquiry" + str(r)) == "ABX Across Collapsed":
-        used_columns.append(getattr(st.session_state, "model" + str(r)) + "_" + "ABXAcross_coll")
+    elif getattr(st.session_state, "inquiry" + str(r)) == "Similarity Average":
+        used_columns.append(getattr(st.session_state, "model" + str(r)) + "_" + "sim_avg")
+    
+    elif getattr(st.session_state, "inquiry" + str(r)) == "Similarity Max":
+        used_columns.append(getattr(st.session_state, "model" + str(r)) + "_" + "sim_max")
+    
+    elif getattr(st.session_state, "inquiry" + str(r)) == "Similarity Variance":
+        used_columns.append(getattr(st.session_state, "model" + str(r)) + "_" + "sim_var")
 
 # st.write(used_columns)
 st.line_chart(read_data()[used_columns])
